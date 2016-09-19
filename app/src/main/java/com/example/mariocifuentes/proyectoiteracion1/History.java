@@ -25,18 +25,19 @@ public class History extends AppCompatActivity {
     private String numeroTelefonico;
     private FloatingActionButton btnEnviarAContacto;
     private String SMS;
-
+    private HeartPattern pattern;
 
     private static HeartRateDB mydb;
     private static ListView list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mydb = new HeartRateDB(this);
         setContentView(R.layout.activity_history);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        pattern = new HeartPattern(mydb.getAllRates());
 
         btnContactos  = (Button) findViewById(R.id.button3);
         btnContactos.setOnClickListener(new View.OnClickListener() {
@@ -46,7 +47,7 @@ public class History extends AppCompatActivity {
             }
         });
 
-        String strReporte = "Toca cambiar esto";
+        String strReporte = pattern.respuesta;
         SMS = strReporte;
 
         btnEnviarAContacto = (FloatingActionButton) findViewById(R.id.fab);
@@ -58,7 +59,6 @@ public class History extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        mydb = new HeartRateDB(this);
         list = (ListView) findViewById(R.id.listView);
 
         ArrayAdapter adap = new ArrayAdapter<Integer>(this, android.R.layout.simple_list_item_1, mydb.getAllRates());
