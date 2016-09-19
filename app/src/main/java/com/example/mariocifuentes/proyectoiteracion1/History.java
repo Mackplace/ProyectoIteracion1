@@ -69,6 +69,7 @@ public class History extends AppCompatActivity {
      * Envía un mensaje de texto al contacto seleccionado
      */
     public void enviarSMS() {
+
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage(numeroTelefonico,null,SMS,null,null);
     }
