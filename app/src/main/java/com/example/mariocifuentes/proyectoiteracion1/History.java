@@ -6,9 +6,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class History extends AppCompatActivity {
-
+    private static HeartRateDB mydb;
+    private static ListView list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +27,11 @@ public class History extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        mydb = new HeartRateDB(this);
+        list = (ListView) findViewById(R.id.listView);
+
+        ArrayAdapter adap = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mydb.getAllRates());
+        list.setAdapter(adap);
     }
 
 }

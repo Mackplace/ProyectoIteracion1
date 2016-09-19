@@ -1,5 +1,6 @@
 package com.example.mariocifuentes.proyectoiteracion1;
 
+import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.app.Activity;
@@ -17,6 +18,9 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.content.Intent;
+import android.widget.Toast;
+import android.telephony.SmsManager;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -41,6 +45,8 @@ public class HeartRateMonitor extends Activity implements View.OnClickListener {
     private static TextView text = null;
     private static Button capBtn = null;
     private boolean caputrando = false;
+    private static TextView capt = null;
+    private static HeartRateDB mydb;
 
     private static WakeLock wakeLock = null;
 
@@ -117,17 +123,21 @@ public class HeartRateMonitor extends Activity implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mydb = new HeartRateDB(this);
         setContentView(R.layout.main);
         preview = (SurfaceView) findViewById(R.id.surfaceView);
         preview.setVisibility(View.INVISIBLE);
         previewHolder = preview.getHolder();
         previewHolder.addCallback(surfaceCallback);
         previewHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-
+        capt = (TextView) findViewById(R.id.textView2);
+        capt.setVisibility(View.INVISIBLE);
         image = findViewById(R.id.image);
         text = (TextView) findViewById(R.id.text);
         capBtn = (Button) findViewById(R.id.button);
         capBtn.setOnClickListener(HeartRateMonitor.this);
+        historyButton();
+
 
 
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -144,14 +154,52 @@ public class HeartRateMonitor extends Activity implements View.OnClickListener {
         if(caputrando == false) {
             caputrando = true;
             preview.setVisibility(View.VISIBLE);
+            capt.setVisibility(View.VISIBLE);
         }
         else{
             caputrando = false;
             preview.setVisibility(View.INVISIBLE);
+            capt.setVisibility(View.INVISIBLE);
 
         }
 
     }
+
+    public void SendMesage(String mesage, int number){
+        Log.i("Send SMS", "");
+        String phoneNo = number+"";
+        String message = mesage;
+
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNo, null, message, null, null);
+            Toast.makeText(getApplicationContext(), "SMS Enviado.", Toast.LENGTH_LONG).show();
+        }
+
+        catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "SMS fallido, porfavor intente otra vez.", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
+    public void historyButton()
+
+    {
+
+        Button historyButton= (Button) findViewById(R.id.button2);
+        historyButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Toast.makeText(HeartRateMonitor.this, "you clicked it!", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(HeartRateMonitor.this,History.class));
+            }
+        });
+
+    }
+
+
 
     /**
      * {@inheritDoc}
@@ -273,6 +321,7 @@ public class HeartRateMonitor extends Activity implements View.OnClickListener {
                 }
                 int beatsAvg = (beatsArrayAvg / beatsArrayCnt);
                 text.setText(String.valueOf(beatsAvg));
+                mydb.insertHeartRate(beatsAvg, Calendar.getInstance().getTime().toString());
                 startTime = System.currentTimeMillis();
                 beats = 0;
             }
