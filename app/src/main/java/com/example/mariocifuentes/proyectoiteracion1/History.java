@@ -46,7 +46,7 @@ public class History extends AppCompatActivity {
             }
         });
 
-        String strReporte = "Prueba Envío";
+        String strReporte = "Toca cambiar esto";
         SMS = strReporte;
 
         btnEnviarAContacto = (FloatingActionButton) findViewById(R.id.fab);
