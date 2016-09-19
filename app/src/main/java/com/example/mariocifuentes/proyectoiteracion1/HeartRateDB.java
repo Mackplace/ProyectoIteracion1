@@ -52,9 +52,9 @@ public class HeartRateDB extends SQLiteOpenHelper {
         return true;
     }
 
-    public ArrayList<String> getAllRates()
+    public ArrayList<Integer> getAllRates()
     {
-        ArrayList<String> array_list = new ArrayList<String>();
+        ArrayList<Integer> array_list = new ArrayList<Integer>();
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -62,7 +62,7 @@ public class HeartRateDB extends SQLiteOpenHelper {
         res.moveToFirst();
 
         while(res.isAfterLast() == false){
-            array_list.add(res.getString(res.getColumnIndex(CONTACTS_COLUMN_NAME)));
+            array_list.add(res.getInt(res.getColumnIndex(CONTACTS_COLUMN_NAME)));
             res.moveToNext();
         }
         return array_list;

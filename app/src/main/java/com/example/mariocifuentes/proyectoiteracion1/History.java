@@ -30,7 +30,7 @@ public class History extends AppCompatActivity {
         mydb = new HeartRateDB(this);
         list = (ListView) findViewById(R.id.listView);
 
-        ArrayAdapter adap = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mydb.getAllRates());
+        ArrayAdapter adap = new ArrayAdapter<Integer>(this, android.R.layout.simple_list_item_1, mydb.getAllRates());
         list.setAdapter(adap);
     }
 
