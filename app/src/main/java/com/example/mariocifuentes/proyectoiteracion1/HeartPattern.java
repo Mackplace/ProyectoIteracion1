@@ -56,7 +56,7 @@ public class HeartPattern
                if (media >= 60 && media < 90)
                {
                    enfermo=false;
-                   respuesta = "Tu ritmo cardiaco parece estar bastante bien!.";
+                   respuesta = "Tu ritmo cardiaco parece estar bastante bien!";
                }
 
                if (media >= 90)
