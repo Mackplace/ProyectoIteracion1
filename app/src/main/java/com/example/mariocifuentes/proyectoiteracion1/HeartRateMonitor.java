@@ -4,6 +4,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.hardware.Camera.PreviewCallback;
@@ -17,18 +18,13 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 
-/**
- * This class extends Activity to handle a picture preview, process the preview
- * for a red values and determine a heart beat.
- *
- * @author Justin Wetherell <phishman3579@gmail.com>
- */
 public class HeartRateMonitor extends Activity implements View.OnClickListener {
 
     private static final String TAG = "HeartRateMonitor";
@@ -128,6 +124,7 @@ public class HeartRateMonitor extends Activity implements View.OnClickListener {
         text = (TextView) findViewById(R.id.text);
         capBtn = (Button) findViewById(R.id.button);
         capBtn.setOnClickListener(HeartRateMonitor.this);
+        historyButton();
 
 
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -338,4 +335,23 @@ public class HeartRateMonitor extends Activity implements View.OnClickListener {
 
         return result;
     }
+
+  public void historyButton()
+
+      {
+
+          Button historyButton= (Button) findViewById(R.id.button2);
+          historyButton.setOnClickListener(new View.OnClickListener()
+          {
+              @Override
+              public void onClick(View v)
+              {
+                  Toast.makeText(HeartRateMonitor.this,"you clicked it!",Toast.LENGTH_LONG).show();
+                  startActivity(new Intent(HeartRateMonitor.this,History.class));
+              }
+          });
+
+      }
+
+
 }
