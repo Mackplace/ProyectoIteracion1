@@ -24,35 +24,43 @@ public class HeartPattern
     public void patternLookup()
 
     {
-       for(int i=0; i<listaHistorial.size();i++)
-       {
-           if(listaHistorial.size()== 0)
-           {
-               respuesta="Aún no has tomado suficientes datos. Mide tu frecuencia cardiaca con TicTac Heart";
-           }
+       for(int i=0; i<listaHistorial.size();i++) {
+           if (listaHistorial.size() == 0) {
+               respuesta = "Aún no has tomado suficientes datos. Mide tu frecuencia cardiaca con TicTac Heart";
+           } else if (!listaHistorial.isEmpty()) {
 
-           else if(!listaHistorial.isEmpty())
-           {
-                double valor = calcularMedia(listaHistorial);
-                 if(valor<60)
-                 {
-                     respuesta= "Según los datos recolectados, puede que estés sufriendo de Bradicardia (Es decir que tu ritmo cardiaco es lento). Visita a un médico";
-                 }
-                if(valor>=60&&valor<90);
+               double varianza = calcularVarianza(listaHistorial);
+               double estandar = calcularMedia(listaHistorial);
+               double media = calcularMedia(listaHistorial);
+
+               if (media - estandar > 30 || estandar - media > 30)
+
                {
-                   respuesta= "Tu ritmo cardiaco parece estar bastante bien!.";
+                    respuesta="Puede que estés sufriendo de arritmia, visita a un médico";
                }
 
-               if(valor>=90);
+
+               if (media < 60) {
+                   respuesta = "Según los datos recolectados, puede que estés sufriendo de Bradicardia (Es decir que tu ritmo cardiaco es lento). Visita a un médico";
+               }
+               if (media >= 60 && media < 90) ;
                {
-                   respuesta= "Tu ritmo está bastante acelerado.Puede que estés sufriendo de taquicardia. Visita a un médico.";
+                   respuesta = "Tu ritmo cardiaco parece estar bastante bien!.";
                }
 
-           }
+               if (media >= 90) ;
+               {
+                   respuesta = "Tu ritmo está bastante acelerado.Puede que estés sufriendo de taquicardia. Visita a un médico.";
+               }
+
 
            }
 
        }
+
+    }
+
+
 
 
 
@@ -71,6 +79,26 @@ public class HeartPattern
         return sum;
 
 
+
+    }
+
+    public double calcularVarianza(ArrayList<Integer> lista)
+    {
+        double media = calcularMedia(lista);
+        double temp =  0;
+        for(double a:lista)
+        {
+            temp+=(a-media)*(a-media);
+
+
+        }
+        return temp/lista.size();
+    }
+
+    public double calcularDesviación(double varianza)
+    {
+
+        return Math.sqrt(varianza);
 
     }
 
