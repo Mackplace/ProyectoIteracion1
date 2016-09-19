@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.hardware.Camera.PreviewCallback;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
@@ -14,16 +15,21 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 
 /**
  * This class extends Activity to handle a picture preview, process the preview
  * for a red values and determine a heart beat.
- * 
+ *
  * @author Justin Wetherell <phishman3579@gmail.com>
  */
-public class HeartRateMonitor extends Activity {
+public class HeartRateMonitor extends Activity implements View.OnClickListener {
 
     private static final String TAG = "HeartRateMonitor";
     private static final AtomicBoolean processing = new AtomicBoolean(false);
@@ -33,16 +39,65 @@ public class HeartRateMonitor extends Activity {
     private static Camera camera = null;
     private static View image = null;
     private static TextView text = null;
+    private static Button capBtn = null;
+    private boolean caputrando = false;
 
     private static WakeLock wakeLock = null;
 
     private static int averageIndex = 0;
     private static final int averageArraySize = 4;
     private static final int[] averageArray = new int[averageArraySize];
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "HeartRateMonitor Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.example.mariocifuentes.proyectoiteracion1/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "HeartRateMonitor Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.example.mariocifuentes.proyectoiteracion1/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
+    }
 
     public static enum TYPE {
         GREEN, RED
-    };
+    }
+
+    ;
 
     private static TYPE currentType = TYPE.GREEN;
 
@@ -63,17 +118,39 @@ public class HeartRateMonitor extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
-        preview = (SurfaceView) findViewById(R.id.preview);
+        preview = (SurfaceView) findViewById(R.id.surfaceView);
+        preview.setVisibility(View.INVISIBLE);
         previewHolder = preview.getHolder();
         previewHolder.addCallback(surfaceCallback);
         previewHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
         image = findViewById(R.id.image);
         text = (TextView) findViewById(R.id.text);
+        capBtn = (Button) findViewById(R.id.button);
+        capBtn.setOnClickListener(HeartRateMonitor.this);
+
 
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "DoNotDimScreen");
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        //Your Logic
+        if(caputrando == false) {
+            caputrando = true;
+            preview.setVisibility(View.VISIBLE);
+        }
+        else{
+            caputrando = false;
+            preview.setVisibility(View.INVISIBLE);
+
+        }
+
     }
 
     /**

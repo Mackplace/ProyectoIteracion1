@@ -2,4 +2,5 @@
 <resources>
     <string name="default_text">--</string>
     <string name="app_name">HeartRateMonitor</string>
+    <string name="title_activity_history">History</string>
 </resources>
