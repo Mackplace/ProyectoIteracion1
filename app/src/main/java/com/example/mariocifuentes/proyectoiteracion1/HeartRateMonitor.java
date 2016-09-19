@@ -47,6 +47,7 @@ public class HeartRateMonitor extends Activity implements View.OnClickListener {
     private boolean caputrando = false;
     private static TextView capt = null;
     private static HeartRateDB mydb;
+    private HeartPattern pattern = null;
 
     private static WakeLock wakeLock = null;
 
@@ -155,14 +156,23 @@ public class HeartRateMonitor extends Activity implements View.OnClickListener {
             caputrando = true;
             preview.setVisibility(View.VISIBLE);
             capt.setVisibility(View.VISIBLE);
+            capBtn.setText("Terminar Medición");
         }
         else{
             caputrando = false;
             preview.setVisibility(View.INVISIBLE);
             capt.setVisibility(View.INVISIBLE);
-
+            capBtn.setText("Medir");
+            evaluarPatron();
         }
 
+    }
+
+    public void evaluarPatron(){
+        pattern = new HeartPattern(mydb.getAllRates());
+        if(pattern.enfermo==true){
+            Toast.makeText(getApplicationContext(), pattern.respuesta, Toast.LENGTH_LONG).show();
+        }
     }
 
     public void SendMesage(String mesage, int number){
@@ -194,6 +204,7 @@ public class HeartRateMonitor extends Activity implements View.OnClickListener {
             {
                 Toast.makeText(HeartRateMonitor.this, "you clicked it!", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(HeartRateMonitor.this,History.class));
+                evaluarPatron();
             }
         });
 

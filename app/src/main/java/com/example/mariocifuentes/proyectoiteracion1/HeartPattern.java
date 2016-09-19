@@ -11,7 +11,8 @@ public class HeartPattern
 {
 
     private ArrayList<Integer> listaHistorial;
-    String respuesta= null;
+    public String respuesta= null;
+    public Boolean enfermo = false;
 
 
 
@@ -21,6 +22,12 @@ public class HeartPattern
      respuesta= new String();
 
  }
+
+    public HeartPattern(ArrayList ritmos){
+        listaHistorial = ritmos;
+        patternLookup();
+    }
+
     public void patternLookup()
 
     {
@@ -36,20 +43,24 @@ public class HeartPattern
                if (media - estandar > 30 || estandar - media > 30)
 
                {
+                    enfermo = true;
                     respuesta="Puede que estés sufriendo de arritmia, visita a un médico";
                }
 
 
                if (media < 60) {
+                   enfermo =true;
                    respuesta = "Según los datos recolectados, puede que estés sufriendo de Bradicardia (Es decir que tu ritmo cardiaco es lento). Visita a un médico";
                }
                if (media >= 60 && media < 90) ;
                {
+                   enfermo=false;
                    respuesta = "Tu ritmo cardiaco parece estar bastante bien!.";
                }
 
                if (media >= 90) ;
                {
+                   enfermo = true;
                    respuesta = "Tu ritmo está bastante acelerado.Puede que estés sufriendo de taquicardia. Visita a un médico.";
                }
 
