@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="default_text">--</string>
-    <string name="app_name">HeartRateMonitor</string>
+    <string name="app_name">Tic Tac Heart</string>
     <string name="title_activity_history">History</string>
     <string name="tituloSeleccionarContactos">Seleccionar contacto</string>
 </resources>
