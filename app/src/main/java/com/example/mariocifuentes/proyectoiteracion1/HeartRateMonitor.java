@@ -27,12 +27,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 
-/**
- * This class extends Activity to handle a picture preview, process the preview
- * for a red values and determine a heart beat.
- *
- * @author Justin Wetherell <phishman3579@gmail.com>
- */
+
 public class HeartRateMonitor extends Activity implements View.OnClickListener {
 
     private static final String TAG = "HeartRateMonitor";

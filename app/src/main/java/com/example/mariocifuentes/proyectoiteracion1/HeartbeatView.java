@@ -10,11 +10,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 
-/**
- * This class extends the View class and is designed draw the heartbeat image.
- * 
- * @author Justin Wetherell <phishman3579@gmail.com>
- */
+
 public class HeartbeatView extends View {
 
     private static final Matrix matrix = new Matrix();
